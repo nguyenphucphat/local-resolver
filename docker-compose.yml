@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  mysql-db:
+    image: mysql:latest
+    container_name: mysql_db
+    environment:
+      MYSQL_ROOT_PASSWORD: ia03
+      MYSQL_DATABASE: ia03
+      MYSQL_USER: ia03
+      MYSQL_PASSWORD: ia03
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  springboot-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql_data:
