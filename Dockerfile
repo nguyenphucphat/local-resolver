@@ -10,4 +10,4 @@ FROM amazoncorretto:21-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar ia03-be.jar
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","-Dspring.profiles.active=dev","iao3-be.jar"]
+ENTRYPOINT ["java","-jar","-Dspring.profiles.active=dev","ia03-be.jar"]
