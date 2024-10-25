@@ -20,7 +20,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: springboot_app
     ports:
       - "8080:8080"
     depends_on:
