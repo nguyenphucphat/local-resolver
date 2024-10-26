@@ -33,7 +33,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class SecurityConfig implements WebMvcConfigurer {
   private static final String CORS_PATH_PATTERNS = "/**";
-  private static final String[] CORS_ALLOWED_ORIGINS = {"*"};
+  private static final String[] CORS_ALLOWED_ORIGINS = {
+    "https://ia03.vercel.app",
+    "https://ia03-ps-projects-8d58c350.vercel.app",
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+  };
   private static final String[] CORS_ALLOWED_HEADERS = {"*"};
   private static final String[] CORS_EXPOSED_HEADERS = {"*"};
   private static final String[] CORS_ALLOWED_METHODS = {
