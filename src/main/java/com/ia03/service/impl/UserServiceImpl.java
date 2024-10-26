@@ -79,11 +79,7 @@ public class UserServiceImpl implements UserService {
   public UserResponse getMe() {
     User currentUser = SecurityUserService.getCurrentUser();
 
-    return UserResponse.builder()
-        .name(currentUser.getName())
-        .email(currentUser.getEmail())
-        .createdAt(currentUser.getCreatedAt())
-        .build();
+    return UserResponse.fromDomain(currentUser);
   }
 
   @Override
@@ -93,15 +89,7 @@ public class UserServiceImpl implements UserService {
 
     System.out.println("users: " + users);
 
-    return users.stream()
-        .map(
-            user ->
-                UserResponse.builder()
-                    .name(user.getName())
-                    .email(user.getEmail())
-                    .createdAt(user.getCreatedAt())
-                    .build())
-        .collect(Collectors.toList());
+    return users.stream().map(UserResponse::fromDomain).collect(Collectors.toList());
   }
 
   @Override
