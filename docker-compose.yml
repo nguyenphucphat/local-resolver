@@ -25,5 +25,18 @@ services:
     depends_on:
       - mysql-db
 
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./selfsigned.crt:/etc/nginx/ssl/selfsigned.crt:ro
+      - ./selfsigned.key:/etc/nginx/ssl/selfsigned.key:ro
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - springboot-app
+
 volumes:
   mysql_data:
