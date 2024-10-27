@@ -21,9 +21,9 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - VIRTUAL_HOST=ia03.phat.tros.vn       # Cấu hình subdomain
-      - LETSENCRYPT_HOST=ia03.phat.tros.vn    # SSL cho subdomain
-      - LETSENCRYPT_EMAIL=dieplientu112003@gmail.com  # Email đăng ký Let's Encrypt
+      - VIRTUAL_HOST=ia03.phat.tros.vn
+      - LETSENCRYPT_HOST=ia03.phat.tros.vn
+      - LETSENCRYPT_EMAIL=your-email@example.com
     networks:
       - usui-network
     depends_on:
@@ -49,17 +49,19 @@ services:
       - usui-network
     labels:
       - 'nginx_proxy=true'
+      - com.github.nginx-proxy.nginx
 
   letsencrypt-nginx-proxy-dev:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt-nginx-proxy-dev
+    environment:
+      - RENEW_PRIVATE_KEYS=false
+      - LETSENCRYPT_TEST=false
+      - NGINX_PROXY_CONTAINER=nginx-proxy-dev
     volumes:
       - vhostd:/etc/nginx/vhost.d
       - nginxcerts:/etc/nginx/certs:rw
       - /var/run/docker.sock:/var/run/docker.sock:ro
-    environment:
-      - RENEW_PRIVATE_KEYS=false
-      - LETSENCRYPT_TEST=false
     networks:
       - usui-network
     depends_on:
