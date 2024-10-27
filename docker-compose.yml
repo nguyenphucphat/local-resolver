@@ -10,8 +10,8 @@ services:
       MYSQL_PASSWORD: ia03
     volumes:
       - mysql_data:/var/lib/mysql
-    ports:
-      - "3306:3306"
+    networks:
+      - usui-network
 
   springboot-app:
     container_name: ia03-be
@@ -20,10 +20,58 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    ports:
-      - "8080:8080"
+    environment:
+      - VIRTUAL_HOST=ia03.phat.tros.vn       # Cấu hình subdomain
+      - LETSENCRYPT_HOST=ia03.phat.tros.vn    # SSL cho subdomain
+      - LETSENCRYPT_EMAIL=dieplientu112003@gmail.com  # Email đăng ký Let's Encrypt
+    networks:
+      - usui-network
     depends_on:
       - mysql-db
 
+  nginx-proxy-dev:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy-dev
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      - ENABLE_IPV6=true
+    privileged: true
+    volumes:
+      - vhostd:/etc/nginx/vhost.d
+      - nginxcerts:/etc/nginx/certs:ro
+      - nginxconf:/etc/nginx/conf.d
+      - nginxlogs:/var/log/nginx
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - usui-network
+    labels:
+      - 'nginx_proxy=true'
+
+  letsencrypt-nginx-proxy-dev:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt-nginx-proxy-dev
+    volumes:
+      - vhostd:/etc/nginx/vhost.d
+      - nginxcerts:/etc/nginx/certs:rw
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - RENEW_PRIVATE_KEYS=false
+      - LETSENCRYPT_TEST=false
+    networks:
+      - usui-network
+    depends_on:
+      - nginx-proxy-dev
+
 volumes:
   mysql_data:
+  vhostd:
+  nginxcerts:
+  nginxconf:
+  nginxlogs:
+  html:
+
+networks:
+  usui-network:
