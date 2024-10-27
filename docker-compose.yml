@@ -23,7 +23,7 @@ services:
     environment:
       - VIRTUAL_HOST=ia03.phat.tros.vn
       - LETSENCRYPT_HOST=ia03.phat.tros.vn
-      - LETSENCRYPT_EMAIL=your-email@example.com
+      - LETSENCRYPT_EMAIL=dieplientu112003@gmail.com
     networks:
       - usui-network
     depends_on:
