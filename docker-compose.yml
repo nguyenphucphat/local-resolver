@@ -43,7 +43,7 @@ services:
       - nginxcerts:/etc/nginx/certs:ro
       - nginxconf:/etc/nginx/conf.d
       - nginxlogs:/var/log/nginx
-      - html:/usr/share/nginx/html
+      - html:/usr/share/nginx/html  # Mount thư mục html làm volume
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - usui-network
@@ -61,6 +61,8 @@ services:
     volumes:
       - vhostd:/etc/nginx/vhost.d
       - nginxcerts:/etc/nginx/certs:rw
+      - /usr/share/nginx/html:/usr/share/nginx/html:rw  # Mount html làm volume ghi
+      - /etc/acme.sh:/etc/acme.sh:rw  # Mount acme.sh làm volume ghi
       - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - usui-network
