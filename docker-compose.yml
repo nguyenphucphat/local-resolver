@@ -22,8 +22,6 @@ services:
       dockerfile: Dockerfile
     environment:
       - VIRTUAL_HOST=ia03.phat.tros.vn
-      - LETSENCRYPT_HOST=ia03.phat.tros.vn
-      - LETSENCRYPT_EMAIL=dieplientu112003@gmail.com
     networks:
       - usui-network
     depends_on:
@@ -40,34 +38,16 @@ services:
     privileged: true
     volumes:
       - vhostd:/etc/nginx/vhost.d
-      - nginxcerts:/etc/nginx/certs:ro
+      - nginxcerts:/etc/nginx/certs:ro  # Thư mục chứa chứng chỉ SSL wildcard
       - nginxconf:/etc/nginx/conf.d
       - nginxlogs:/var/log/nginx
-      - html:/usr/share/nginx/html  # Mount thư mục html làm volume
+      - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - usui-network
     labels:
       - 'nginx_proxy=true'
       - com.github.nginx-proxy.nginx
-
-  letsencrypt-nginx-proxy-dev:
-    image: jrcs/letsencrypt-nginx-proxy-companion
-    container_name: letsencrypt-nginx-proxy-dev
-    environment:
-      - RENEW_PRIVATE_KEYS=false
-      - LETSENCRYPT_TEST=false
-      - NGINX_PROXY_CONTAINER=nginx-proxy-dev
-    volumes:
-      - vhostd:/etc/nginx/vhost.d
-      - nginxcerts:/etc/nginx/certs:rw
-      - /usr/share/nginx/html:/usr/share/nginx/html:rw  # Mount html làm volume ghi
-      - /etc/acme.sh:/etc/acme.sh:rw  # Mount acme.sh làm volume ghi
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-    networks:
-      - usui-network
-    depends_on:
-      - nginx-proxy-dev
 
 volumes:
   mysql_data:
