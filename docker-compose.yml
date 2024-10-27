@@ -43,7 +43,7 @@ services:
       - nginxcerts:/etc/nginx/certs:ro
       - nginxconf:/etc/nginx/conf.d
       - nginxlogs:/var/log/nginx
-      - html:/usr/share/nginx/html
+      - /usr/share/nginx/html:/usr/share/nginx/html:rw
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
       - usui-network
