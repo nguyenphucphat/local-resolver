@@ -55,9 +55,9 @@ services:
     image: jrcs/letsencrypt-nginx-proxy-companion
     container_name: letsencrypt-nginx-proxy-dev
     environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy-dev
       - RENEW_PRIVATE_KEYS=false
       - LETSENCRYPT_TEST=false
-      - NGINX_PROXY_CONTAINER=nginx-proxy-dev
     volumes:
       - vhostd:/etc/nginx/vhost.d
       - nginxcerts:/etc/nginx/certs:rw
