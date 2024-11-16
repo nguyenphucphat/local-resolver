@@ -61,7 +61,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   public ResponseEntity<Object> handleBaseDomainException(BaseInternalException exception) {
     return wrapWithResponse(
         exception.getCode(),
-        getRootCauseMessage(exception),
+        exception.getMessage(),
         getExceptionStackTrace(exception),
         HttpStatus.BAD_REQUEST);
   }

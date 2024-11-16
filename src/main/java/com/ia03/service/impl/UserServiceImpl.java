@@ -93,7 +93,12 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  @SneakyThrows
   public void deleteUser(Long id) {
+    if (!userRepository.existsById(id)) {
+      throw new EntityNotFoundException();
+    }
+
     userRepository.deleteById(id);
   }
 }

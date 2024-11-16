@@ -1,5 +1,6 @@
 package com.ia03.projection.response;
 
+import com.ia03.service.TranslatorService;
 import java.util.Collections;
 import lombok.*;
 
@@ -26,8 +27,9 @@ public class BaseResponse<T> {
 
   public static <T> BaseResponse<T> error(
       String exceptionCode, String exceptionMessage, String stackTrace) {
+
     return BaseResponse.<T>builder()
-        .message(exceptionMessage)
+        .message(TranslatorService.toLocale(exceptionMessage))
         .exceptionCode(exceptionCode)
         .stackTrace(stackTrace)
         .build();

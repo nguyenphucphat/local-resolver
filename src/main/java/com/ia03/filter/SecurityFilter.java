@@ -3,6 +3,7 @@ package com.ia03.filter;
 import com.ia03.exception.InvalidTokenException;
 import com.ia03.projection.response.BaseResponse;
 import com.ia03.service.JsonService;
+import com.ia03.service.TranslatorService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -54,7 +55,7 @@ public class SecurityFilter extends OncePerRequestFilter {
             jsonService.toJson(
                 BaseResponse.builder()
                     .data(null)
-                    .message(UN_AUTHORIZED_MESSAGE)
+                    .message(TranslatorService.toLocale(exception.getMessage()))
                     .exceptionCode(exception.getCode())
                     .stackTrace(Arrays.toString(exception.getStackTrace()))
                     .build()));

@@ -4,7 +4,7 @@ import lombok.NonNull;
 
 public class InvalidTokenException extends BaseInternalException {
   private static final String CODE = "IA03.EX.001";
-  private static final String MESSAGE = "The jwt token is invalid";
+  private static final String MESSAGE = "INVALID_TOKEN_MESSAGE";
 
   public InvalidTokenException(@NonNull String message, @NonNull String code) {
     super(message, code);
